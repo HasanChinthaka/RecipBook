@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recepies_app/services/auth_service.dart';
+import 'package:status_alert/status_alert.dart';
 
 // ignore: use_key_in_widget_constructors
 class LoginPage extends StatefulWidget {
@@ -54,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextFormField(
+              initialValue: 'emilys',
               onSaved: (value) {
                 setState(() {
                   username = value;
@@ -67,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               decoration: const InputDecoration(hintText: "User Name "),
             ),
             TextFormField(
+              initialValue: 'emilyspass',
               obscureText: true,
               onSaved: (value) {
                 setState(() {
@@ -91,10 +95,34 @@ class _LoginPageState extends State<LoginPage> {
     return SizedBox(
       width: MediaQuery.sizeOf(context).width * 0.60,
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (_loginformKey.currentState?.validate() ?? false) {
             _loginformKey.currentState?.save();
-            print("$username - $password");
+            bool result = await AuthService().login(username!, password!);
+            if (result) {
+              StatusAlert.show(
+                context,
+                duration: const Duration(seconds: 1),
+                title: "Welcome Back!",
+                subtitle: "Login Successfull",
+                configuration: const IconConfiguration(
+                  icon: Icons.check_circle,
+                ),
+                maxWidth: 260,
+              );
+              Navigator.pushReplacementNamed(context, "/home");
+            } else {
+              StatusAlert.show(
+                context,
+                duration: const Duration(seconds: 2),
+                title: "Login Failed",
+                subtitle: "Please try again",
+                configuration: const IconConfiguration(
+                  icon: Icons.error,
+                ),
+                maxWidth: 260,
+              );
+            }
           }
         },
         child: const Text("Login"),
