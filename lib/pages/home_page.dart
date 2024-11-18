@@ -15,11 +15,56 @@ class _HomePageState extends State<HomePage> {
         title: const Text("RecipBook"),
         centerTitle: true,
       ),
-      body: _buildUI(),
+      body: SafeArea(child: _buildUI()),
     );
   }
 
   Widget _buildUI() {
-    return Container();
+    return Container(
+      child: Column(
+        children: [
+          _recipTypeButtons(),
+        ],
+      ),
+    );
+  }
+
+  Widget _recipTypeButtons() {
+    return SizedBox(
+      height: MediaQuery.sizeOf(context).height * 0.05,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: FilledButton(
+              onPressed: () {},
+              child: const Text("🍪 Snack"),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: FilledButton(
+              onPressed: () {},
+              child: const Text("🥞 Breakfast"),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: FilledButton(
+              onPressed: () {},
+              child: const Text("🍛 Lunch"),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: FilledButton(
+              onPressed: () {},
+              child: const Text("🍽️ Dinner"),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
