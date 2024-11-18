@@ -100,16 +100,6 @@ class _LoginPageState extends State<LoginPage> {
             _loginformKey.currentState?.save();
             bool result = await AuthService().login(username!, password!);
             if (result) {
-              StatusAlert.show(
-                context,
-                duration: const Duration(seconds: 1),
-                title: "Welcome Back!",
-                subtitle: "Login Successfull",
-                configuration: const IconConfiguration(
-                  icon: Icons.check_circle,
-                ),
-                maxWidth: 260,
-              );
               Navigator.pushReplacementNamed(context, "/home");
             } else {
               StatusAlert.show(
