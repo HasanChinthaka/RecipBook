@@ -10,6 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _mealTypeFilter = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,12 +26,12 @@ class _HomePageState extends State<HomePage> {
   Widget _buildUI() {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            _recipTypeButtons(),
-            _recipesList(),
-          ],
-        ),
+      child: Column(
+        children: [
+          _recipTypeButtons(),
+          _recipesList(),
+        ],
+      ),
     );
   }
 
@@ -42,28 +44,44 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _mealTypeFilter = "snack";
+                });
+              },
               child: const Text("🍪 Snack"),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _mealTypeFilter = "breakfast";
+                });
+              },
               child: const Text("🥞 Breakfast"),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _mealTypeFilter = "lunch";
+                });
+              },
               child: const Text("🍛 Lunch"),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  _mealTypeFilter = "dinner";
+                });
+              },
               child: const Text("🍽️ Dinner"),
             ),
           ),
@@ -75,7 +93,9 @@ class _HomePageState extends State<HomePage> {
   Widget _recipesList() {
     return Expanded(
       child: FutureBuilder(
-        future: DataService().getRecipes(),
+        future: DataService().getRecipes(
+          _mealTypeFilter,
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -99,17 +119,14 @@ class _HomePageState extends State<HomePage> {
                 isThreeLine: true,
                 subtitle:
                     Text("${recipe.cuisine}\nDifficulty: ${recipe.difficulty}"),
-                leading: Image.network(
-                  recipe.image
-                  ),
-                title: Text(
-                  recipe.name
-                  ),
-                  trailing: Text("${recipe.rating.toString()} ⭐",
+                leading: Image.network(recipe.image),
+                title: Text(recipe.name),
+                trailing: Text(
+                  "${recipe.rating.toString()} ⭐",
                   style: const TextStyle(
                     fontSize: 15,
                   ),
-                  ),
+                ),
               );
             },
           );
