@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recepies_app/models/recipe.dart';
+import 'package:recepies_app/pages/recipe_page.dart';
 import 'package:recepies_app/services/data_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
         ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -113,6 +114,14 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               Recipe recipe = snapshot.data![index];
               return ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return RecipePage(recipe: recipe,);
+                    }),
+                  );
+                },
                 contentPadding: const EdgeInsets.only(
                   top: 20.0,
                 ),
